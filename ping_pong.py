@@ -28,11 +28,18 @@ class GameSprite(sprite.Sprite):
 # класс главного игрока
 class Player(GameSprite):
     # метод для управления спрайтом стрелками клавиатуры
-    def update(self):
+    def updater(self):
         keys = key.get_pressed()
         if keys[K_UP] and self.rect.y > 0:
             self.rect.y -= self.speed
         if keys[K_DOWN] and self.rect.y < win_height - 100:
+            self.rect.y += self.speed
+
+    def updatel(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < win_height - 100:
             self.rect.y += self.speed
 
 
@@ -45,6 +52,7 @@ window = display.set_mode((win_width, win_height))
 
 # создаем спрайты
 racket1 = Player(img_racket, 5, win_height/2, 80, 100, 10)
+racket2 = Player(img_racket, win_width-70, win_height/2, 80, 100, 10)
 
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
@@ -61,11 +69,13 @@ while run:
         window.fill((0,0,0))
 
         # производим движения спрайтов
-        racket1.update()
+        racket1.updater()
+        racket2.updatel()
 
 
         # обновляем их в новом местоположении при каждой итерации цикла
         racket1.reset()
+        racket2.reset()
 
 
         display.update()
