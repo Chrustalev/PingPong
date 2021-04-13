@@ -5,6 +5,9 @@ from pygame import *
 img_ball = "tenis_ball.png" # фон игры
 img_racket = "racket.png" # герой
 
+speed_x = 10
+speed_y = 10
+
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
   # конструктор класса
@@ -54,6 +57,8 @@ window = display.set_mode((win_width, win_height))
 racket1 = Player(img_racket, 5, win_height/2, 80, 100, 10)
 racket2 = Player(img_racket, win_width-70, win_height/2, 80, 100, 10)
 
+ball = GameSprite(img_ball, win_height/2, win_height/2, 50, 50, 10)
+
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
 # Основной цикл игры:
@@ -72,10 +77,20 @@ while run:
         racket1.updater()
         racket2.updatel()
 
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.y > win_height-30 or ball.rect.y < 0:
+            speed_y *= -1
+            ball.rect.y += speed_y
 
+
+        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
+            speed_x *= -1
+            speed_y *= 1
         # обновляем их в новом местоположении при каждой итерации цикла
         racket1.reset()
         racket2.reset()
+        ball.reset()
 
 
         display.update()
