@@ -1,5 +1,5 @@
 from pygame import *
-
+from random import *
 
 # нам нужны такие картинки:
 img_ball = "tenis_ball.png" # фон игры
